@@ -19,7 +19,7 @@ pipeline {
         stage('Docker Build & Push') {
             steps {
                 script {
-                    def imageName = "yourdockerhubusername/to-do-app"
+                    def imageName = "nikki3/to-do-app"
                     sh "docker build -t ${imageName}:latest ."
                     sh "docker push ${imageName}:latest"
                 }
