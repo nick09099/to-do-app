@@ -1,0 +1,82 @@
+# To-Do App: Build, Test, and Deploy Summary
+
+## 1. Application Setup and Testing
+
+### 1.1 App Code
+- A simple **To-Do app** built with **Node.js** and **Express**.
+- The app provides two routes:
+  - `GET /todos`: Returns all the to-do items.
+  - `POST /todos`: Adds a new to-do item to an in-memory array.
+
+### 1.2 Testing the App
+- **Test Framework**: Used **Jest** for testing the app.
+- Encountered issues where the app was not running on the desired port.
+- **Fixed Issue**: Modified the app to listen on **port 3001** instead of **3000**.
+
+### 1.3 App Logic
+- Used **in-memory storage** for managing the to-do list.
+- Responded with `200` status code for successful `GET /todos` requests.
+- Responded with `201` status code for successful `POST /todos` requests.
+
+## 2. Dockerization Process
+
+### 2.1 Dockerfile Creation
+- Created a **Dockerfile** to containerize the Node.js app.
+- Steps in the Dockerfile:
+  1. **Base Image**: Used `node:16` as the base image.
+  2. **Set Working Directory**: Set `/usr/src/app` as the working directory.
+  3. **Install Dependencies**: Run `npm install` to install dependencies.
+  4. **Expose Port**: Exposed port `3001` for the app.
+  5. **Run the App**: Used `CMD` to run the app with `node app.js`.
+
+### 2.2 Docker Build
+- Built the Docker image using `docker build -t <username>/to-do-app .`.
+- **Fixed Build Issues**: Resolved errors related to missing dependencies during the build process.
+
+### 2.3 Docker Hub Deployment
+- Tagged the Docker image as `latest` and pushed it to **Docker Hub** (`<username>/to-do-app:latest`).
+- **Fixed Push Issues**: Solved permission and authentication issues related to Docker Hub access tokens.
+
+## 3. Container Deployment and Testing
+
+### 3.1 Running the Container
+- Ran the Docker container using the following command:
+
+
+-----------------------------------------------------------------------------------
+
+- Encountered **port conflicts** when trying to use port `3000` (because another process was using it).
+
+### 3.2 Correcting Port Issue
+- **Updated the app** to listen on port `3001` to avoid the conflict.
+- The container was successfully started and accessible on port `3001`.
+
+### 3.3 Accessing the App
+- Verified the app was running by accessing it via `curl` and browser testing.
+- Encountered **502 Bad Gateway** and **404 Not Found** errors while trying to access it through Nginx.
+
+## 4. Nginx Configuration for Reverse Proxy
+
+### 4.1 Basic Nginx Setup
+- Configured Nginx to act as a reverse proxy to forward requests to the Docker container running on port `3001`.
+- The reverse proxy configuration was set in Nginx to forward requests to `http://localhost:3001`.
+
+### 4.2 Testing & Debugging
+- Encountered a series of **502** and **404 errors** when trying to access the app through Nginx.
+- Investigated and adjusted the reverse proxy configuration, including checking if Nginx was correctly routing traffic to the app container.
+- Still troubleshooting the final steps for proper Nginx-to-application communication.
+
+## 5. Next Steps
+
+### 5.1 Resolve Nginx Configuration
+- Ensure the reverse proxy setup in Nginx is configured correctly to forward traffic to port `3001` where the Node.js app is running.
+- Test and verify that the app is accessible via the domain or IP through the Nginx reverse proxy.
+
+### 5.2 Multi-stage Dockerfile (Optional)
+- Consider refactoring the Dockerfile into a **multi-stage build** for improved efficiency (e.g., by separating build and production stages).
+
+### 5.3 Automate Deployment
+- Implement **CI/CD pipelines** for automated testing and deployment to production (using tools like **Jenkins**, **GitHub Actions**, or **GitLab CI**).
+
+## Conclusion
+The To-Do app has been successfully dockerized, pushed to Docker Hub, and deployed on a server. Further steps are needed to finalize Nginx configuration and ensure smooth app accessibility.
