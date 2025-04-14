@@ -7,6 +7,10 @@ app.use(express.json());
 const todos = [];
 
 // Routes
+app.get('/', (req, res) => {
+  res.send('Welcome to the To-Do App API!');
+});
+
 app.get('/todos', (req, res) => {
   res.status(200).json(todos);
 });
