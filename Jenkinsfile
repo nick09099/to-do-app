@@ -2,14 +2,14 @@ pipeline {
     agent any
 
     environment {
-        IMAGE = 'yourdockerhubusername/todo-app'
+        IMAGE = 'nikki3/todo-app'
         TAG = 'latest'
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/youruser/your-repo-name.git'
+                git 'https://github.com/nick09099/to-do-app.git'
             }
         }
 
