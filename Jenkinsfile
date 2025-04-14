@@ -16,10 +16,13 @@ pipeline {
                 sh 'npm test'
             }
         }
-        stage('Build & Run') {
+        stage('Docker Build & Push') {
             steps {
-                sh 'npm run build || echo "No build step defined"'
-                sh 'node app.js &'
+                script {
+                    def imageName = "yourdockerhubusername/to-do-app"
+                    sh "docker build -t ${imageName}:latest ."
+                    sh "docker push ${imageName}:latest"
+                }
             }
         }
     }
