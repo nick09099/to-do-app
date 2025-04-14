@@ -1,11 +1,9 @@
 const express = require('express');
 const app = express();
-const todos = require('./routes/todos');
 
-app.use(express.json());
-app.use('/todos', todos);
+// middleware and routes
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`To-Do app listening at http://localhost:${PORT}`);
 });
